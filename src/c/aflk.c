@@ -1,21 +1,3 @@
-/*
-Usage: aflk [OPTIONS] <filename>
-
-OPTIONS:
-  -S, --setlk       Set a lock using F_SETLK.
-  -W, --setlkw      Set a blocking lock using F_SETLKW.
-  -G, --getlk       Query the lock status using F_GETLK.
-  -t, --type        Specify the lock type (read or write).
-  -s, --start       Specify the starting byte of the lock.
-  -w, --whence      Interpretation of l_start (set, cur, end).
-  -l, --len         Specify the number of bytes to lock.
-
-Examples:
-  aflk -S -t write filename.txt
-  aflk -G filename.txt
-
-Note: Please refer to the documentation for detailed usage and examples.
-*/
 #include "aflk.h"
 
 /* 
