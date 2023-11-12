@@ -1,12 +1,18 @@
 # aflk
 
+## Overview
+
 `aflk` is a command-line utility designed to handle advisory file locks on Unix-like systems using the `fcntl` system call. The tool offers functionalities to set and query locks on specified files, ensuring proper synchronization and coordination between processes when accessing shared resources.
 
-## Features
+### Example
 
-- **Set Advisory Locks**: Use `F_SETLK` to set locks on files.
-- **Set Advisory Locks by Waiting**: Use `F_SETLKW` if you want to wait for the lock to be established.
-- **Query Lock Status**: Use `F_GETLK` to retrieve the lock status of files.
+Invoke the tool by stipulating the desired options followed by the target filename.
+
+For instance, to set a write lock on a file named `example.txt`, execute:
+
+```bash
+./aflk -S -t write example.txt
+```
 
 ## Options
 
@@ -18,19 +24,11 @@
 - `-w` or `--whence`: Determine how the `l_start` value is interpreted. Choices are `set` (file start), `cur` (current position), and `end` (file end).
 - `-l` or `--len`: Specify the span (in bytes) to lock. A value of `0` locks up to the file's end.
 
-## Usage
+## Features
 
-Invoke the tool by stipulating the desired options followed by the target filename.
-
-For instance, to set a write lock on a file named `example.txt`, execute:
-
-```bash
-./aflk -S -t write example.txt
-```
-
-## aflk Usage Guide
-
-If you encounter this guide, you might have provided an invalid option or incorrect arguments. Please follow the correct usage pattern described below:
+- **Set Advisory Locks**: Use `F_SETLK` to set locks on files.
+- **Set Advisory Locks by Waiting**: Use `F_SETLKW` if you want to wait for the lock to be established.
+- **Query Lock Status**: Use `F_GETLK` to retrieve the lock status of files.
 
 ### To Set Advisory Locks
 
@@ -48,7 +46,7 @@ For example, to set a write lock on file.txt:
 aflk -S -t write file.txt
 ```
 
-### Set Advisory Locks by Waiting
+### To Set Advisory Locks by Waiting
 
 For setting a lock that waits until it can obtain the lock:
 
