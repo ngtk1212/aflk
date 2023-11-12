@@ -35,8 +35,7 @@ void display_help()
     printf("  -h, --help        Display this help message.\n\n");
     printf("Examples:\n");
     printf("  aflk -S -t write filename.txt\n");
-    printf("  aflk -G filename.txt\n\n");
-    printf("Note: Please refer to the documentation for detailed usage and examples.\n");
+    printf("  aflk -G filename.txt\n");
 }
 
 /* 
