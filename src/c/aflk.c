@@ -1,26 +1,6 @@
 #include "aflk.h"
 
 /* 
- * Display the help message showing how to use the program.
- */
-void display_help()
-{
-    printf("Usage: %s [OPTIONS] <filename>\n\n", PROGRAM_NAME);
-    printf("OPTIONS:\n");
-    printf("  -S, --setlk       Set a lock using F_SETLK.\n");
-    printf("  -W, --setlkw      Set a blocking lock using F_SETLKW.\n");
-    printf("  -G, --getlk       Query the lock status using F_GETLK.\n");
-    printf("  -t, --type        Specify the lock type (read or write). Default value is read.\n");
-    printf("  -s, --start       Specify the starting byte of the lock. Default value is 0.\n");
-    printf("  -w, --whence      Interpretation of l_start (set, cur, end). Default value is set.\n");
-    printf("  -l, --len         Specify the number of bytes to lock. Default value is 0.\n");
-    printf("  -h, --help        Display this help message.\n\n");
-    printf("Examples:\n");
-    printf("  aflk -S -t write filename.txt\n");
-    printf("  aflk -G filename.txt\n");
-}
-
-/* 
  * Display the current status of the file lock.
  * @param lock: Pointer to a flock structure containing lock details.
  */
@@ -102,6 +82,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
             else
             {
                 fprintf(stderr, "Invalid lock type: %s\n", optarg);
+                fprintf(stderr, "Use -h or --help for usage information.\n");
                 return 1;
             }
             break;
@@ -111,6 +92,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
             if (errno != 0 || *endptr != '\0')
             {
                 fprintf(stderr, "Invalid value for starting byte: %s\n", optarg);
+                fprintf(stderr, "Use -h or --help for usage information.\n");
                 return 1;
             }
             break;
@@ -130,6 +112,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
             else
             {
                 fprintf(stderr, "Invalid whence value: %s\n", optarg);
+                fprintf(stderr, "Use -h or --help for usage information.\n");
                 return 1;
             }
             break;
@@ -139,15 +122,17 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
             if (errno != 0 || *endptr != '\0')
             {
                 fprintf(stderr, "Invalid value for length: %s\n", optarg);
+                fprintf(stderr, "Use -h or --help for usage information.\n");
                 return 1;
             }
             break;
         case 'h':
-            display_help();
+            printf(USAGE);
             return 0;
         default:
             /* Invalid option provided */
-            fprintf(stderr, "Invalid option provided. Use -h or --help for usage information.\n");
+            fprintf(stderr, "Invalid option provided.\n");
+            fprintf(stderr, "Use -h or --help for usage information.\n");
             return 1;
         }
     }
@@ -156,8 +141,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
     if (optind >= argc)
     {
         fprintf(stderr, "Specify a filename.\n");
-        printf("\n");
-        display_help();
+        fprintf(stderr, "Use -h or --help for usage information.\n");
         return 1;
     }
 
@@ -165,8 +149,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
     if (option_counter != 1)
     {
         fprintf(stderr, "You must specify only one of the following options: -S, -W, or -G.\n");
-        printf("\n");
-        display_help();
+        fprintf(stderr, "Use -h or --help for usage information.\n");
         return 1;
     }
 
