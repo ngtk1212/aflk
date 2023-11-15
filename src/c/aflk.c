@@ -200,14 +200,17 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock lock)
         {
             /* Output an error if the lock fails */
             perror("Failed to set lock using F_SETLK");
-            close(fd);
-            return 1;
+            goto ERROR_END;
         }
 
         /* Inform the user that the file is locked and waiting for a signal */
         printf("File locked: %s\n", filename);
         printf("Waiting for signal to release. Press Ctrl+C to interrupt.\n");
-        pause();  /* Pause execution until a signal is received */
+#ifndef DEBUG
+        /* For debug builds, do not pause. */
+        /* Pause execution until a signal is received */
+        pause();  
+#endif
     }
     /* Attempt to set a lock using F_SETLKW (waits for the lock if it's already held) */
     else if (fcntlflag == F_SETLKW)
@@ -216,14 +219,17 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock lock)
         {
             /* Output an error if the lock fails */
             perror("Failed to set lock using F_SETLKW");
-            close(fd);
-            return 1;
+            goto ERROR_END;
         }
 
         /* Inform the user that the file is locked and waiting for a signal */
         printf("File locked: %s\n", filename);
         printf("Waiting for signal to release. Press Ctrl+C to interrupt.\n");
-        pause();  /* Pause execution until a signal is received */
+#ifndef DEBUG
+        /* For debug builds, do not pause. */
+        /* Pause execution until a signal is received */
+        pause();  
+#endif
     }
     /* Attempt to retrieve lock information using F_GETLK */
     else if (fcntlflag == F_GETLK)
@@ -235,8 +241,7 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock lock)
         {
             /* Output an error if the retrieval of lock information fails */
             perror("Failed to get lock information");
-            close(fd);
-            return 1;
+            goto ERROR_END;
         }
         /* Display the lock information */
         get_lock_info_str(lock, lock_info_str, sizeof(lock_info_str));
@@ -246,14 +251,18 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock lock)
     {
         /* Inform the user that an invalid action was specified */
         fprintf(stderr, "Invalid action specified. Please choose one of the following options: -S/--setlk, -W/--setlkw, or -G/--getlk.\n");
-        close(fd);
-        return 1;
+        goto ERROR_END;
     }
 
     /* Close the file descriptor */
     close(fd);
 
     return 0;
+
+ERROR_END:
+    close(fd);
+
+    return 1;
 }
 
 int main(int argc, char *argv[])
