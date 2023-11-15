@@ -1,26 +1,34 @@
 #include "aflk.h"
 
 /* 
- * Display the current status of the file lock.
+ * Returns a string indicating the current status of the file lock.
  * @param lock: Pointer to a flock structure containing lock details.
+ * @param lock_info_str: A string indicating the current status of the file lock. 
+ * @param lock_info_str_size: The size of lock_info_str. 
  */
-void show_lock_info(struct flock *lock)
+void get_lock_info_str(struct flock lock, char *lock_info_str, size_t lock_info_str_size)
 {
 /* Check if the file is not locked */
-    if (lock->l_type == F_UNLCK)
+    if (lock.l_type == F_UNLCK)
     {
-        printf("No locks held.\n");
+        /* The file is unlocked */
+        snprintf(
+            lock_info_str
+            , lock_info_str_size
+            , "The file is lockable.\n"
+            );
     }
-    else /* The file is locked */
+    else
     {
-        /* Print lock information including type (Read/Write), start, and length of the lock */
-        printf("Lock type: %s, Start: %lld, Length: %lld\n",
-               /* Determine if it's a Read or Write lock */
-               lock->l_type == F_RDLCK ? "Read" : "Write",
-               /* Starting byte of the lock */
-               (long long)lock->l_start,
-               /* Number of bytes locked */
-               (long long)lock->l_len);
+        /* The file is locked */
+        snprintf(
+            lock_info_str
+            , lock_info_str_size
+            , "The file is not lockable. The lock info of the file is type: %s, Start: %lld, Length: %lld.\n"
+            , lock.l_type == F_RDLCK ? "Read" : "Write"
+            , (long long)lock.l_start
+            , (long long)lock.l_len
+            );        
     }
 }
 
@@ -166,7 +174,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
  * @param lock: Pointer to a flock structure containing lock details.
  * @return: 0 on successful operation, 1 on any error.
  */
-int perform_lock_action(int fcntlflag, char *filename, struct flock *lock)
+int perform_lock_action(int fcntlflag, char *filename, struct flock lock)
 {
     int fd = 0;
 
@@ -188,7 +196,7 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock *lock)
     /* Attempt to set a lock using F_SETLK */
     if (fcntlflag == F_SETLK)
     {
-        if (fcntl(fd, F_SETLK, lock) == -1)
+        if (fcntl(fd, F_SETLK, &lock) == -1)
         {
             /* Output an error if the lock fails */
             perror("Failed to set lock using F_SETLK");
@@ -204,7 +212,7 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock *lock)
     /* Attempt to set a lock using F_SETLKW (waits for the lock if it's already held) */
     else if (fcntlflag == F_SETLKW)
     {
-        if (fcntl(fd, F_SETLKW, lock) == -1)
+        if (fcntl(fd, F_SETLKW, &lock) == -1)
         {
             /* Output an error if the lock fails */
             perror("Failed to set lock using F_SETLKW");
@@ -220,7 +228,10 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock *lock)
     /* Attempt to retrieve lock information using F_GETLK */
     else if (fcntlflag == F_GETLK)
     {
-        if (fcntl(fd, F_GETLK, lock) == -1)
+        char lock_info_str[256];
+        memset(lock_info_str, '\0', sizeof(lock_info_str));
+
+        if (fcntl(fd, F_GETLK, &lock) == -1)
         {
             /* Output an error if the retrieval of lock information fails */
             perror("Failed to get lock information");
@@ -228,7 +239,8 @@ int perform_lock_action(int fcntlflag, char *filename, struct flock *lock)
             return 1;
         }
         /* Display the lock information */
-        show_lock_info(lock);
+        get_lock_info_str(lock, lock_info_str, sizeof(lock_info_str));
+        printf("%s", lock_info_str);
     }
     else
     {
@@ -261,7 +273,7 @@ int main(int argc, char *argv[])
     }
 
     /* Perform the desired lock action based on parsed options */
-    if (perform_lock_action(fcntlflag, filename, &lock) != 0)
+    if (perform_lock_action(fcntlflag, filename, lock) != 0)
     {
         /* If there's an error performing the lock action, exit with a failure status */
         return EXIT_FAILURE;
