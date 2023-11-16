@@ -27,5 +27,5 @@ Examples:\n\
 
 /* Function prototype declaration */
 void get_lock_info_str(struct flock lock, char* lock_info_str, size_t lock_info_str_size);
-int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, char **filename);
+int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, char **filename, int *helpflag);
 int perform_lock_action(int fcntlflag, char *filename, struct flock lock);

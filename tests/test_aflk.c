@@ -18,6 +18,7 @@ void test_parse_options_normal_1() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -25,7 +26,7 @@ void test_parse_options_normal_1() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_SETLK);
     /* lock is default */
@@ -35,6 +36,8 @@ void test_parse_options_normal_1() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -W */
@@ -44,6 +47,7 @@ void test_parse_options_normal_2() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -51,7 +55,7 @@ void test_parse_options_normal_2() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_SETLKW);
     /* lock is default */
@@ -61,6 +65,8 @@ void test_parse_options_normal_2() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -G */
@@ -70,6 +76,7 @@ void test_parse_options_normal_3() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -77,7 +84,7 @@ void test_parse_options_normal_3() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* lock is default */
@@ -87,6 +94,8 @@ void test_parse_options_normal_3() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -t write */
@@ -96,6 +105,7 @@ void test_parse_options_normal_4() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -103,7 +113,7 @@ void test_parse_options_normal_4() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_type of lock is the specified value */
@@ -114,6 +124,8 @@ void test_parse_options_normal_4() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -t read */
@@ -123,6 +135,7 @@ void test_parse_options_normal_5() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -130,7 +143,7 @@ void test_parse_options_normal_5() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_type of lock is the specified value */
@@ -141,6 +154,8 @@ void test_parse_options_normal_5() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -s */
@@ -150,6 +165,7 @@ void test_parse_options_normal_6() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -157,7 +173,7 @@ void test_parse_options_normal_6() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_start of lock is the specified value */
@@ -168,6 +184,8 @@ void test_parse_options_normal_6() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -w set */
@@ -177,6 +195,7 @@ void test_parse_options_normal_7() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -184,7 +203,7 @@ void test_parse_options_normal_7() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_whence of lock is the specified value */
@@ -195,6 +214,8 @@ void test_parse_options_normal_7() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -w cur */
@@ -204,6 +225,7 @@ void test_parse_options_normal_8() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -211,7 +233,7 @@ void test_parse_options_normal_8() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_whence of lock is the specified value */
@@ -222,6 +244,8 @@ void test_parse_options_normal_8() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -w end */
@@ -231,6 +255,7 @@ void test_parse_options_normal_9() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -238,7 +263,7 @@ void test_parse_options_normal_9() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_whence of lock is the specified value */
@@ -249,6 +274,8 @@ void test_parse_options_normal_9() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -l */
@@ -258,6 +285,7 @@ void test_parse_options_normal_10() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -265,7 +293,7 @@ void test_parse_options_normal_10() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is the specified value */
     CU_ASSERT_EQUAL(fcntlflag, F_GETLK);
     /* The l_len of lock is the specified value */
@@ -276,6 +304,8 @@ void test_parse_options_normal_10() {
     CU_ASSERT_EQUAL(lock.l_whence, 0);
     /* filename is the specified value */
     CU_ASSERT_STRING_EQUAL(filename, "filename.txt");
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -h */
@@ -285,6 +315,7 @@ void test_parse_options_normal_11() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -292,7 +323,7 @@ void test_parse_options_normal_11() {
     print_header(__func__);
 
     /* parse_options function ended normaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 0);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 0);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -302,6 +333,8 @@ void test_parse_options_normal_11() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is specified */
+    CU_ASSERT_EQUAL(helpflag, 1);
 }
 
 /* invalid lock type (-t option value) */
@@ -311,6 +344,7 @@ void test_parse_options_error_1() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -318,7 +352,7 @@ void test_parse_options_error_1() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -328,6 +362,8 @@ void test_parse_options_error_1() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* invalid value for starting byte (-s option value) */
@@ -337,6 +373,7 @@ void test_parse_options_error_2() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -344,7 +381,7 @@ void test_parse_options_error_2() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -354,6 +391,8 @@ void test_parse_options_error_2() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* invalid whence value (-w option value) */
@@ -363,6 +402,7 @@ void test_parse_options_error_3() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -370,7 +410,7 @@ void test_parse_options_error_3() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -380,6 +420,8 @@ void test_parse_options_error_3() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* invalid value for length (-l option value) */
@@ -389,6 +431,7 @@ void test_parse_options_error_4() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -396,7 +439,7 @@ void test_parse_options_error_4() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -406,6 +449,8 @@ void test_parse_options_error_4() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* invalid option */
@@ -415,6 +460,7 @@ void test_parse_options_error_5() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -422,7 +468,7 @@ void test_parse_options_error_5() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -432,6 +478,8 @@ void test_parse_options_error_5() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* filename is not spacified */
@@ -441,6 +489,7 @@ void test_parse_options_error_6() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -448,7 +497,7 @@ void test_parse_options_error_6() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -458,6 +507,8 @@ void test_parse_options_error_6() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* -S, -W or -G is not spacified */
@@ -467,6 +518,7 @@ void test_parse_options_error_7() {
     struct flock lock = {0};
     int fcntlflag = 0;
     char *filename = NULL;
+    int helpflag = 0;
 
     /* init getopt_long */
     optind = 1;
@@ -474,7 +526,7 @@ void test_parse_options_error_7() {
     print_header(__func__);
 
     /* parse_options function ended abnormaly. */
-    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename), 1);
+    CU_ASSERT_EQUAL(parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag), 1);
     /* fcntlflag is default */
     CU_ASSERT_EQUAL(fcntlflag, F_RDLCK);
     /* lock is default */
@@ -484,6 +536,8 @@ void test_parse_options_error_7() {
     CU_ASSERT_EQUAL(lock.l_len, 0);
     /* filename is null */
     CU_ASSERT_PTR_NULL(filename);
+    /* -h is not specified */
+    CU_ASSERT_EQUAL(helpflag, 0);
 }
 
 /* lockable */
@@ -659,6 +713,19 @@ void test_main_normal_1() {
     CU_ASSERT_EQUAL(_main_for_cunit(argc, argv), 0);
 }
 
+/* --help */
+void test_main_normal_2() {
+    char *argv[] = {"aflk", "--help"};
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    print_header(__func__);
+
+    /* init getopt_long */
+    optind = 1;
+
+    CU_ASSERT_EQUAL(_main_for_cunit(argc, argv), 0);
+}
+
 /* Failed option check on main  */
 void test_main_error_1() {
     char *argv[] = {"aflk", "-X", "./test_output/dummy.txt"};
@@ -730,6 +797,7 @@ int main(void) {
 
     suite = CU_add_suite("Main test", NULL, NULL);
     CU_add_test(suite, "test_main_normal_1", test_main_normal_1);
+    CU_add_test(suite, "test_main_normal_2", test_main_normal_2);
     CU_add_test(suite, "test_main_error_1", test_main_error_1);
     CU_add_test(suite, "test_main_error_2", test_main_error_2);
 
