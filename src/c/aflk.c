@@ -41,7 +41,7 @@ void get_lock_info_str(struct flock lock, char *lock_info_str, size_t lock_info_
  * @param filename: Pointer to a char* to store the filename to be processed.
  * @return: 0 on successful parsing, 1 on any error.
  */
-int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, char **filename)
+int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, char **filename, int *helpflag)
 {
     /* Define the long options for getopt_long */
     struct option long_options[] = {
@@ -62,7 +62,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
     int option_counter = 0;
 
     /* Loop through each option provided in the command arguments */
-    while ((c = getopt_long(argc, argv, "SWGt:s:w:l:", long_options, &option_index)) != -1)
+    while ((c = getopt_long(argc, argv, "SWGt:s:w:l:h", long_options, &option_index)) != -1)
     {
         switch (c)
         {
@@ -136,6 +136,7 @@ int parse_options(int argc, char *argv[], struct flock *lock, int *fcntlflag, ch
             break;
         case 'h':
             printf(USAGE);
+            *helpflag = 1;
             return 0;
         default:
             /* Invalid option provided */
@@ -273,12 +274,20 @@ int main(int argc, char *argv[])
     struct flock lock = {0};
     /* Pointer to hold the name of the file being processed */
     char *filename = NULL;
+    /* Initialize a flag for printing usage action (0: not specified, 1: specified) */
+    int helpflag = 0;
 
     /* Parse command line options to set up the lock struct, action flag, and filename */
-    if (parse_options(argc, argv, &lock, &fcntlflag, &filename) != 0)
+    if (parse_options(argc, argv, &lock, &fcntlflag, &filename, &helpflag) != 0)
     {
         /* If there's an error in parsing options, exit with a failure status */
         return EXIT_FAILURE;
+    }
+
+    /* -h or --help is specified */
+    if (helpflag == 1) {
+        /* The Usage display has already been performed with the parse_options function */
+        return EXIT_SUCCESS;    
     }
 
     /* Perform the desired lock action based on parsed options */
