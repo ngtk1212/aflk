@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# インストール先のディレクトリ
+# installation directory
 INSTALL_DIR="/usr/local/bin"
-# 実行可能ファイルの名前
+# command name
 EXEC_NAME="aflk"
 
-# コンパイル
+# build
 make $EXEC_NAME
 if [ $? -ne 0 ]; then
     echo "Compilation failed."
@@ -18,7 +18,7 @@ if [ -f $INSTALL_DIR/$EXEC_NAME ]; then
     exit 1
 fi
 
-# 実行可能ファイルをインストールディレクトリにコピー
+# install
 cp ./output/$EXEC_NAME $INSTALL_DIR/
 if [ $? -ne 0 ]; then
     echo "Failed to copy the executable to $INSTALL_DIR."
